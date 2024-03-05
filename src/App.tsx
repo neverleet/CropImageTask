@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import ImageComponent from "./components/ImageComponent";
+import ImageEditor from "./components/ImageEditor";
 
-function App() {
+const App: React.FC = () => {
+  const imageProps = {
+    src: "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg",
+    crop: { x: 100, y: 100, w: 1000, h: 652 },
+    objects: [
+      { point: { x: 25, y: 25 }, type: "arrow", comment: "Cтрелка 1" },
+      { point: { x: 345, y: 65 }, type: "arrow", comment: "Cтрелка 2" },
+    ],
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <ImageComponent {...imageProps} /> */}
+      <ImageEditor props={imageProps} />
     </div>
   );
-}
+};
 
 export default App;
