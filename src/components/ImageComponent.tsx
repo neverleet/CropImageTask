@@ -20,16 +20,20 @@ const ImageComponent: React.FC<ImageProps> = ({ src, crop, objects }) => {
   return (
     <div style={containerStyle}>
       <img src={src} style={imageStyle} />
+      
       {objects.map((obj, index) => (
         <div key={index} style={{
           position: 'absolute',
           left: `${obj.point.x}px`,
           top: `${obj.point.y}px`,
         }}>
+
+
           <div style={{fontSize: '24px'}}>⇒</div>
           {obj.comment && <div style={{ marginTop: '5px' }}>{obj.comment}</div>}
         </div>
-      ))}
+          ))}
+
     </div>
   );
 };
