@@ -1,5 +1,5 @@
 import React from "react";
-import {ImageProps} from "../types"
+import { ImageProps } from "../types";
 
 const ImageComponent: React.FC<ImageProps> = ({ src, crop, objects }) => {
   const imageStyle: React.CSSProperties = {
@@ -19,21 +19,21 @@ const ImageComponent: React.FC<ImageProps> = ({ src, crop, objects }) => {
 
   return (
     <div style={containerStyle}>
-      <img src={src} style={imageStyle} />
-      
+      <img src={src} alt="img" style={imageStyle} />
+
       {objects.map((obj, index) => (
-        <div key={index} style={{
-          position: 'absolute',
-          left: `${obj.point.x}px`,
-          top: `${obj.point.y}px`,
-        }}>
-
-
-          <div style={{fontSize: '24px'}}>⇒</div>
-          {obj.comment && <div style={{ marginTop: '5px' }}>{obj.comment}</div>}
+        <div
+          key={index}
+          style={{
+            position: "absolute",
+            left: `${obj.point.x}px`,
+            top: `${obj.point.y}px`,
+          }}
+        >
+          {obj.comment && <div style={{ marginTop: "5px", color: "red", fontWeight: "bold" }}>{obj.comment}</div>}
+          <div style={{ fontSize: "24px", color: "red", marginTop: "15px", transform: "rotate(45deg)" }}>⇒</div>
         </div>
-          ))}
-
+      ))}
     </div>
   );
 };

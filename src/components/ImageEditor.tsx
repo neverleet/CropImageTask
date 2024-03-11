@@ -61,6 +61,19 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ props }) => {
     }));
   };
 
+  const DisplayData = () => {
+    const objectStrings = redactedImg.objects.map((obj) => {
+      return `${obj.point.x},${obj.point.y}:${obj.type}:${obj.comment}`;
+    });
+
+    const objectsStr = `[${objectStrings.join("; ")}]`;
+
+    console.log(
+      `img src='${redactedImg.src}' crop="x:${redactedImg.crop.x}, y:${redactedImg.crop.y}, ${redactedImg.crop.w}-${redactedImg.crop.h}" objects=${objectsStr}`
+    );
+  };
+
+  // console.log(redactedImg);
   // console.log(crop);
   // console.log(arrows);
   // console.log(newArrow);
@@ -77,6 +90,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ props }) => {
       <input name="y" placeholder="стрелка y" type="text" onChange={ArrowInputChange} />
       <input placeholder="текст" type="text" onChange={ArrowTextChange} />
       <button onClick={AddArrowClick}>Добавить</button>
+      <button onClick={DisplayData}>Данные</button>
 
       <ImageComponent {...redactedImg} />
     </div>
