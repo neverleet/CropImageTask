@@ -1,98 +1,119 @@
 import React, { useState, ChangeEvent } from "react";
 import ImageComponent from "./ImageComponent";
-import { ImageProps } from "../types";
+import DraggableArrow from "./DraggableArrow";
+import { ImageProps, ImageObject } from "../types";
 
 interface ImageEditorProps {
   props: ImageProps;
+  imageWidth: number;
+  imageHeight: number;
 }
 
-const ImageEditor: React.FC<ImageEditorProps> = ({ props }) => {
-  const [redactedImg, setRedactedImg] = useState({ ...props });
-  const [crop, setCrop] = useState({ ...redactedImg.crop });
-
-  const [arrows, setArrows] = useState([...redactedImg.objects]);
-  const [newArrow, setNewArrow] = useState({ point: { x: 0, y: 0 }, type: "arrow", comment: "" });
+const ImageEditor: React.FC<ImageEditorProps> = ({ props, imageWidth, imageHeight }) => {
+  const [redactedImg, setRedactedImg] = useState(props);
+  const [crop, setCrop] = useState(props.crop);
+  const [arrows, setArrows] = useState(props.objects);
+  const [newArrow, setNewArrow] = useState<ImageObject>({ point: { x: 50, y: 50 }, type: "arrow", comment: "" });
 
   const InputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCrop((e) => ({
-      ...e,
+    setCrop((prevCrop) => ({
+      ...prevCrop,
       [name]: value,
     }));
   };
 
   const CropClick = () => {
-    setRedactedImg((e) => ({
-      ...e,
-      crop: { ...crop },
+    setRedactedImg((prevImg) => ({
+      ...prevImg,
+      crop: crop,
       objects: arrows,
     }));
   };
 
-  const ArrowInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setNewArrow((e) => ({
-      ...e,
-      point: { ...e.point, [name]: parseInt(value) },
-    }));
-  };
+  // const ArrowInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+  //   setNewArrow  ((prevArrow) => ({
+  //     ...prevArrow,
+  //     point: { ...prevArrow.point, [name]: parseInt(value) },
+  //   }));
+  // };
 
   const ArrowTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setNewArrow((e) => ({
-      ...e,
+    setNewArrow((prevArrow) => ({
+      ...prevArrow,
       comment: value,
     }));
   };
 
   const AddArrowClick = () => {
     AddArrow();
-    setRedactedImg((e) => ({
-      ...e,
+    setRedactedImg((prevImg) => ({
+      ...prevImg,
       objects: [...arrows, newArrow],
     }));
   };
 
   const AddArrow = () => {
-    setArrows((e) => [...e, newArrow]);
-    setRedactedImg((prevNewArrow) => ({
-      ...prevNewArrow,
+    setArrows((prevArrows) => [...prevArrows, newArrow]);
+    setRedactedImg((prevImg) => ({
+      ...prevImg,
       objects: arrows,
     }));
   };
 
+  const handleDrag = (id: string, x: number, y: number) => {
+    const newX = (x / imageWidth) * 100;
+    const newY = (y / imageHeight) * 100;
+
+    const withinBoundsX = newX >= 0 && newX <= 95;
+    const withinBoundsY = newY >= 0 && newY <= 95;
+
+    if (withinBoundsX && withinBoundsY) {
+      const updatedArrows = arrows.map((arrow) => {
+        if (arrow.comment === id) {
+          return {
+            ...arrow,
+            point: { x: newX, y: newY },
+          };
+        }
+        return arrow;
+      });
+
+      setArrows(updatedArrows);
+    }
+  };
+
   const DisplayData = () => {
-    const objectStrings = redactedImg.objects.map((obj) => {
-      return `${obj.point.x},${obj.point.y}:${obj.type}:${obj.comment}`;
+    const objectStrings = arrows.map((obj) => {
+      return `${Math.ceil(obj.point.x)},${Math.ceil(obj.point.y)}:${obj.type}:${obj.comment}`;
     });
 
     const objectsStr = `[${objectStrings.join("; ")}]`;
 
     console.log(
-      `img src='${redactedImg.src}' crop="x:${redactedImg.crop.x}, y:${redactedImg.crop.y}, ${redactedImg.crop.w}-${redactedImg.crop.h}" objects=${objectsStr}`
+      `{% img src='${redactedImg.src}' crop="x:${redactedImg.crop.x}, y:${redactedImg.crop.y}, ${redactedImg.crop.w}-${redactedImg.crop.h}" objects=${objectsStr} %}`
     );
   };
 
-  // console.log(redactedImg);
-  // console.log(crop);
-  // console.log(arrows);
-  // console.log(newArrow);
-
   return (
     <div>
-      <input name="x" placeholder="фото x" type="text" onChange={InputChange} />
-      <input name="y" placeholder="фото y" type="text" onChange={InputChange} />
+      <input name="x" placeholder="x фото" type="text" onChange={InputChange} />
+      <input name="y" placeholder="y фото" type="text" onChange={InputChange} />
       <input name="w" placeholder="ширина" type="text" onChange={InputChange} />
       <input name="h" placeholder="высота" type="text" onChange={InputChange} />
       <button onClick={CropClick}>Обрезать</button>
 
-      <input style={{ marginLeft: "20px" }} name="x" placeholder="стрелка x" type="text" onChange={ArrowInputChange} />
-      <input name="y" placeholder="стрелка y" type="text" onChange={ArrowInputChange} />
-      <input placeholder="текст" type="text" onChange={ArrowTextChange} />
+      <input style={{ marginLeft: "20px" }} placeholder="текст" type="text" onChange={ArrowTextChange} />
       <button onClick={AddArrowClick}>Добавить</button>
       <button onClick={DisplayData}>Данные</button>
 
-      <ImageComponent {...redactedImg} />
+      <ImageComponent {...redactedImg}>
+        {arrows.map((arrow, index) => (
+          <DraggableArrow key={index} arrow={arrow} onDrag={(id, x, y) => handleDrag(id, x, y)} />
+        ))}
+      </ImageComponent>
     </div>
   );
 };
