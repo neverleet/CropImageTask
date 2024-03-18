@@ -13,7 +13,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ props, imageWidth, imageHeigh
   const [redactedImg, setRedactedImg] = useState(props);
   const [crop, setCrop] = useState(props.crop);
   const [arrows, setArrows] = useState(props.objects);
-  const [newArrow, setNewArrow] = useState<ImageObject>({ point: { x: 50, y: 50 }, type: "arrow", comment: "" });
+  const [newArrow, setNewArrow] = useState<ImageObject>({ point: { x: 50, y: 50 }, type: "arrow", comment: "текст" });
 
   const InputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,13 +39,13 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ props, imageWidth, imageHeigh
   //   }));
   // };
 
-  const ArrowTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setNewArrow((prevArrow) => ({
-      ...prevArrow,
-      comment: value,
-    }));
-  };
+  // const ArrowTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const { value } = e.target;
+  //   setNewArrow((prevArrow) => ({
+  //     ...prevArrow,
+  //     comment: value,
+  //   }));
+  // };
 
   const AddArrowClick = () => {
     AddArrow();

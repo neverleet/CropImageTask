@@ -12,7 +12,7 @@ const EditableExample: React.FC = () => {
   return (
     <div>
       <div
-        onChange={DataGet}
+        onInput={DataGet}
         contentEditable
         onBlur={handleContentChange}
         dangerouslySetInnerHTML={{ __html: content }}

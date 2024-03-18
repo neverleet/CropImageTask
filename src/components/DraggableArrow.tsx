@@ -9,6 +9,8 @@ interface DraggableArrowProps {
 const DraggableArrow: React.FC<DraggableArrowProps> = ({ arrow, onDrag }) => {
   const arrowRef = useRef<HTMLDivElement | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [comment, setComment] = useState(arrow.comment || "");
   const offsetX = useRef<number>(0);
   const offsetY = useRef<number>(0);
 
@@ -48,6 +50,19 @@ const DraggableArrow: React.FC<DraggableArrowProps> = ({ arrow, onDrag }) => {
     }
   };
 
+  const handleCommentDoubleClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(e.target.value);
+  };
+
+  const handleCommentBlur = () => {
+    setIsEditing(false);
+    arrow.comment = comment;
+  };
+
   return (
     <div
       ref={arrowRef}
@@ -61,8 +76,28 @@ const DraggableArrow: React.FC<DraggableArrowProps> = ({ arrow, onDrag }) => {
         userSelect: "none",
       }}
     >
-      {arrow.comment && <div style={{ marginTop: "5px", color: "red", fontWeight: "bold" }}>{arrow.comment}</div>}
-      <div style={{ fontSize: "24px", color: "red", marginTop: "15px", transform: "rotate(45deg)" }}>⇒</div>
+      {isEditing ? (
+        <input
+          type="text"
+          value={comment}
+          onChange={handleCommentChange}
+          onBlur={handleCommentBlur}
+          autoFocus
+          style={{ width: "100%", marginTop: "5px", color: "red", fontWeight: "bold" }}
+        />
+      ) : (
+        <>
+          {arrow.comment && (
+            <div
+              onDoubleClick={handleCommentDoubleClick}
+              style={{ marginTop: "5px", color: "red", fontWeight: "bold" }}
+            >
+              {arrow.comment}
+            </div>
+          )}
+          <div style={{ fontSize: "24px", color: "red", marginTop: "15px", transform: "rotate(45deg)" }}>⇒</div>
+        </>
+      )}
     </div>
   );
 };
