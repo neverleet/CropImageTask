@@ -105,9 +105,11 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ props, imageWidth, imageHeigh
       <input name="h" placeholder="высота" type="text" onChange={InputChange} />
       <button onClick={CropClick}>Обрезать</button>
 
-      <input style={{ marginLeft: "20px" }} placeholder="текст" type="text" onChange={ArrowTextChange} />
-      <button onClick={AddArrowClick}>Добавить</button>
-      <button onClick={DisplayData}>Данные</button>
+      {/* <input style={{ marginLeft: "20px" }} placeholder="текст" type="text" onChange={ArrowTextChange} /> */}
+      <button style={{ marginLeft: "20px" }} onClick={AddArrowClick}>
+        Добавить Стрелку
+      </button>
+      <button onClick={DisplayData}>Данные об изображении</button>
 
       <ImageComponent {...redactedImg}>
         {arrows.map((arrow, index) => (
