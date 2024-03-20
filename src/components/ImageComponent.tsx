@@ -5,7 +5,7 @@ interface ImageComponentProps extends ImageProps {
   children: ReactNode;
 }
 
-const ImageComponent: React.FC<ImageComponentProps> = ({ src, crop, objects, children }) => {
+const ImageComponent: React.FC<ImageComponentProps> = ({ src, crop, children }) => {
   const containerStyle: React.CSSProperties = {
     width: `${crop.w}px`,
     height: `${crop.h}px`,

@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import ImageEditor from "./components/ImageEditor";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import { ImageProps } from "./types";
 
 const App: React.FC = () => {
@@ -16,9 +14,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <DndProvider backend={HTML5Backend}>
-        <ImageEditor props={imageProps} imageWidth={imageProps.crop.w} imageHeight={imageProps.crop.h} />
-      </DndProvider>
+      <ImageEditor props={imageProps} imageWidth={imageProps.crop.w} imageHeight={imageProps.crop.h} />
     </div>
   );
 };

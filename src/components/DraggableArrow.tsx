@@ -11,6 +11,7 @@ const DraggableArrow: React.FC<DraggableArrowProps> = ({ arrow, onDrag }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [comment, setComment] = useState(arrow.comment || "");
+  
   const offsetX = useRef<number>(0);
   const offsetY = useRef<number>(0);
 
@@ -95,7 +96,9 @@ const DraggableArrow: React.FC<DraggableArrowProps> = ({ arrow, onDrag }) => {
               {arrow.comment}
             </div>
           )}
-          <div style={{ fontSize: "24px", color: "red", marginTop: "15px", transform: "rotate(45deg)" }}>⇒</div>
+          <div style={{ fontSize: "24px", width: "20px", color: "red", marginTop: "15px", transform: "rotate(45deg)" }}>
+            ⇒
+          </div>
         </>
       )}
     </div>

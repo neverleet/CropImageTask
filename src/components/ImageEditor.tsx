@@ -48,6 +48,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ props, imageWidth, imageHeigh
   // };
 
   const AddArrowClick = () => {
+    setNewArrow({ point: { x: 50, y: 50 }, type: "arrow", comment: "текст" });
     AddArrow();
     setRedactedImg((prevImg) => ({
       ...prevImg,
@@ -86,7 +87,9 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ props, imageWidth, imageHeigh
   };
 
   const DisplayData = () => {
+    console.log(arrows)
     const objectStrings = arrows.map((obj) => {
+      
       return `${Math.ceil(obj.point.x)},${Math.ceil(obj.point.y)}:${obj.type}:${obj.comment}`;
     });
 
