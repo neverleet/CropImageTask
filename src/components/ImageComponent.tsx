@@ -11,6 +11,8 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ src, crop, children }) 
     height: `${crop.h}px`,
     overflow: "hidden",
     position: "relative",
+    marginTop: "20px",
+    borderRadius: "5px",
   };
 
   return (

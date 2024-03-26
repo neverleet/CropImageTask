@@ -2,6 +2,8 @@ import React, { useState, ChangeEvent } from "react";
 import ImageComponent from "./ImageComponent";
 import DraggableArrow from "./DraggableArrow";
 import { ImageProps, ImageObject } from "../types";
+import "../styles/ImageEditor.css";
+import { Button } from "react-bootstrap";
 
 interface ImageEditorProps {
   props: ImageProps;
@@ -87,9 +89,7 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ props, imageWidth, imageHeigh
   };
 
   const DisplayData = () => {
-    console.log(arrows)
     const objectStrings = arrows.map((obj) => {
-      
       return `${Math.ceil(obj.point.x)},${Math.ceil(obj.point.y)}:${obj.type}:${obj.comment}`;
     });
 
@@ -102,17 +102,22 @@ const ImageEditor: React.FC<ImageEditorProps> = ({ props, imageWidth, imageHeigh
 
   return (
     <div>
-      <input name="x" placeholder="x фото" type="text" onChange={InputChange} />
-      <input name="y" placeholder="y фото" type="text" onChange={InputChange} />
-      <input name="w" placeholder="ширина" type="text" onChange={InputChange} />
-      <input name="h" placeholder="высота" type="text" onChange={InputChange} />
-      <button onClick={CropClick}>Обрезать</button>
-
-      {/* <input style={{ marginLeft: "20px" }} placeholder="текст" type="text" onChange={ArrowTextChange} /> */}
-      <button style={{ marginLeft: "20px" }} onClick={AddArrowClick}>
-        Добавить Стрелку
-      </button>
-      <button onClick={DisplayData}>Данные об изображении</button>
+      <div className="btn-group">
+        <input name="x" placeholder="x фото" type="text" onChange={InputChange} />
+        <input name="y" placeholder="y фото" type="text" onChange={InputChange} />
+        <input name="w" placeholder="ширина" type="text" onChange={InputChange} />
+        <input name="h" placeholder="высота" type="text" onChange={InputChange} />
+        <Button variant="primary" className="rounded-button" onClick={CropClick}>
+          Обрезать
+        </Button>
+        {/* <input style={{ marginLeft: "20px" }} placeholder="текст" type="text" onChange={ArrowTextChange} /> */}
+        <Button variant="primary" style={{ marginLeft: "60px" }} onClick={AddArrowClick}>
+          Добавить Стрелку
+        </Button>
+        <Button variant="primary" onClick={DisplayData}>
+          Данные об изображении
+        </Button>
+      </div>
 
       <ImageComponent {...redactedImg}>
         {arrows.map((arrow, index) => (

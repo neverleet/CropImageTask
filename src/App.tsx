@@ -13,7 +13,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="App">
+    <div className="App" style={{ display: "flex", justifyContent: "center" }}>
       <ImageEditor props={imageProps} imageWidth={imageProps.crop.w} imageHeight={imageProps.crop.h} />
     </div>
   );

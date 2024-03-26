@@ -1,0 +1,23 @@
+  input { width: 100px; }
+
+  .btn-group {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 1000px
+  }
+
+  .btn-group button {
+    margin-right: 10px;
+    border-radius: 5px !important;
+  }
+  .btn-group input {
+    margin-right: 10px;
+    border-radius: 5px !important;
+  }
+  .rounded-button {
+    border-radius: 5px !important;
+  }
+  .btn-group button:last-child {
+    margin-right: 0;
+  }

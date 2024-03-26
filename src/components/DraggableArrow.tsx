@@ -11,7 +11,7 @@ const DraggableArrow: React.FC<DraggableArrowProps> = ({ arrow, onDrag }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [comment, setComment] = useState(arrow.comment || "");
-  
+
   const offsetX = useRef<number>(0);
   const offsetY = useRef<number>(0);
 
@@ -44,10 +44,11 @@ const DraggableArrow: React.FC<DraggableArrowProps> = ({ arrow, onDrag }) => {
   }, [arrow, isDragging, onDrag]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (arrowRef.current) {
+    if (arrowRef.current && arrowRef.current.parentElement) {
       setIsDragging(true);
-      offsetX.current = e.clientX - arrowRef.current.getBoundingClientRect().left;
-      offsetY.current = e.clientY - arrowRef.current.getBoundingClientRect().top;
+      const imageRect = arrowRef.current.parentElement.getBoundingClientRect();
+      offsetX.current = e.clientX - arrowRef.current.getBoundingClientRect().left + imageRect.left;
+      offsetY.current = e.clientY - arrowRef.current.getBoundingClientRect().top + imageRect.top;
     }
   };
 
